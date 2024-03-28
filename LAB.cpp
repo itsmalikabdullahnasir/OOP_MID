@@ -140,17 +140,15 @@ int main() {
 
     std::ofstream outputFile("output.txt");
 
-    // Check if the file was opened successfully
+   
     if (!outputFile) {
         std::cerr << "Failed to open the output file." << std::endl;
         return 1;
     }
 
-    // Create fitness classes
     FitnessClass yoga("Yoga", 20, 10);
     FitnessClass zumba("Zumba", 30, 15);
 
-    // Book slots
     std::string memberName;
     int classChoice, slotChoice, bookingChoice;
 
