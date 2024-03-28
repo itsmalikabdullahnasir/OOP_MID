@@ -8,6 +8,7 @@
 
 class Booking;  // Forward declaration
 
+// Member class
 class Member {
 private:
     std::string name;
@@ -22,6 +23,7 @@ public:
     void addBooking(const Booking& booking);
 };
 
+// FitnessClass class
 class FitnessClass {
 private:
     std::string name;
@@ -43,7 +45,7 @@ public:
     }
 
     bool bookSlot(std::string memberName, int slotIndex);
-    void printAvailableSlots(std::ostream& os) const;
+    void printAvailableSlots() const;
     void printBookings() const;
 
     void cancelBooking(std::string basicString, int i);
@@ -52,6 +54,7 @@ private:
     Member* getOrCreateMember(const std::string& memberName);
 };
 
+// Booking class
 class Booking {
 private:
     std::string memberName;
@@ -93,10 +96,10 @@ bool FitnessClass::bookSlot(std::string memberName, int slotIndex) {
     return false;
 }
 
-void FitnessClass::printAvailableSlots(std::ostream& os) const {
-    os << "Available slots for " << name << ":" << std::endl;
+void FitnessClass::printAvailableSlots() const {
+    std::cout << "Available slots for " << name << ":" << std::endl;
     for (int i = 0; i < availableSlots.size(); i++) {
-        os << "Slot " << i << ": " << (availableSlots[i] ? "Available" : "Booked") << std::endl;
+        std::cout << "Slot " << i << ": " << (availableSlots[i] ? "Available" : "Booked") << std::endl;
     }
 }
 
@@ -129,48 +132,43 @@ void FitnessClass::cancelBooking(std::string basicString, int i) {
         availableSlots[booking.getSlotIndex()] = true;
         bookings.erase(bookings.begin() + i);
     }
+
 }
+
 
 int main() {
 
     std::ofstream outputFile("output.txt");
 
+    // Check if the file was opened successfully
     if (!outputFile) {
         std::cerr << "Failed to open the output file." << std::endl;
         return 1;
     }
 
+    // Create fitness classes
     FitnessClass yoga("Yoga", 20, 10);
     FitnessClass zumba("Zumba", 30, 15);
 
+    // Book slots
     std::string memberName;
     int classChoice, slotChoice, bookingChoice;
 
     while (true) {
         std::cout << "\nWelcome to the Fitness Class Booking System!" << std::endl;
-        outputFile << "\nWelcome to the Fitness Class Booking System!" << std::endl;
         std::cout << "1. Book a class" << std::endl;
-        outputFile << "1. Book a class" << std::endl;
         std::cout << "2. Cancel a booking" << std::endl;
-        outputFile << "2. Cancel a booking" << std::endl;
         std::cout << "3. View class bookings" << std::endl;
-        outputFile << "3. View class bookings" << std::endl;
         std::cout << "4. Exit" << std::endl;
-        outputFile << "4. Exit" << std::endl;
         std::cout << "Enter your choice: ";
-        outputFile << "Enter your choice: ";
         std::cin >> bookingChoice;
 
         switch (bookingChoice) {
             case 1: {
                 std::cout << "Select a class:" << std::endl;
-                outputFile << "Select a class:" << std::endl;
                 std::cout << "1. Yoga" << std::endl;
-                outputFile << "1. Yoga" << std::endl;
                 std::cout << "2. Zumba" << std::endl;
-                outputFile << "2. Zumba" << std::endl;
                 std::cout << "Enter the class number: ";
-                outputFile << "Enter the class number: ";
                 std::cin >> classChoice;
 
                 FitnessClass* selectedClass;
@@ -183,37 +181,28 @@ int main() {
                         break;
                     default:
                         std::cout << "Invalid class choice." << std::endl;
-                        outputFile << "Invalid class choice." << std::endl;
                         continue;
                 }
 
-                selectedClass->printAvailableSlots(outputFile);
+                selectedClass->printAvailableSlots();
                 std::cout << "Enter the slot number you want to book: ";
-                outputFile << "Enter the slot number you want to book: ";
                 std::cin >> slotChoice;
 
                 std::cout << "Enter your name: ";
-                outputFile << "Enter your name: ";
                 std::cin >> memberName;
 
                 if (selectedClass->bookSlot(memberName, slotChoice - 1)) {
                     std::cout << "Booking successful!" << std::endl;
-                    outputFile << "Booking successful!" << std::endl;
                 } else {
                     std::cout << "Failed to book the selected slot." << std::endl;
-                    outputFile << "Failed to book the selected slot." << std::endl;
                 }
                 break;
             }
             case 2: {
                 std::cout << "Select a class:" << std::endl;
-                outputFile << "Select a class:" << std::endl;
                 std::cout << "1. Yoga" << std::endl;
-                outputFile << "1. Yoga" << std::endl;
                 std::cout << "2. Zumba" << std::endl;
-                outputFile << "2. Zumba" << std::endl;
                 std::cout << "Enter the class number: ";
-                outputFile << "Enter the class number: ";
                 std::cin >> classChoice;
 
                 FitnessClass* selectedClass;
@@ -226,26 +215,51 @@ int main() {
                         break;
                     default:
                         std::cout << "Invalid class choice." << std::endl;
-                        outputFile << "Invalid class choice." << std::endl;
+                        continue;
+                }
+
+                std::cout << "Enter your name: ";
+                std::cin >> memberName;
+
+                selectedClass->printBookings();
+                std::cout << "Enter the booking number to cancel: ";
+                std::cin >> bookingChoice;
+
+                selectedClass->cancelBooking(memberName, bookingChoice);
+                std::cout << "Booking canceled successfully!" << std::endl;
+                break;
+            }
+            case 3: {
+                std::cout << "Select a class:" << std::endl;
+                std::cout << "1. Yoga" << std::endl;
+                std::cout << "2. Zumba" << std::endl;
+                std::cout << "Enter the class number: ";
+                std::cin >> classChoice;
+
+                FitnessClass* selectedClass;
+                switch (classChoice) {
+                    case 1:
+                        selectedClass = &yoga;
+                        break;
+                    case 2:
+                        selectedClass = &zumba;
+                        break;
+                    default:
+                        std::cout << "Invalid class choice." << std::endl;
                         continue;
                 }
 
                 selectedClass->printBookings();
-                std::cout << "Enter your name: ";
-                outputFile << "Enter your name: ";
-                std::cin >> memberName;
-
-                std::cout << "Enter the booking number you want to cancel: ";
-                outputFile << "Enter the booking number you want to cancel: ";
-                std::cin >> slotChoice;
-
-                selectedClass->cancelBooking(memberName, slotChoice - 1);
                 break;
             }
+            case 4:
+                std::cout << "Exiting the system. Goodbye!" << std::endl;
+                return 0;
+            default:
+                std::cout << "Invalid choice. Please try again." << std::endl;
+                break;
         }
     }
-
-    outputFile.close();
 
     return 0;
 }
