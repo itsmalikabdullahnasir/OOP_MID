@@ -1,0 +1,3 @@
+C:/Users/malik/OneDrive/Desktop/LAB Mid/cmake-build-debug/CMakeFiles/LAB_Mid.dir
+C:/Users/malik/OneDrive/Desktop/LAB Mid/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/malik/OneDrive/Desktop/LAB Mid/cmake-build-debug/CMakeFiles/rebuild_cache.dir

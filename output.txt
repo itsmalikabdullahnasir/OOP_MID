@@ -1,0 +1,6 @@
+
+Welcome to the Fitness Class Booking System!
+1. Book a class
+2. Cancel a booking
+3. View class bookings
+4. Exit
